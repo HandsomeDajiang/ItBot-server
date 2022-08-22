@@ -6,6 +6,7 @@
 /yarn-error.log
 /yarn.lock
 /package-lock.json
+/test_upload.shell
 
 # production
 /dist
@@ -18,3 +19,8 @@
 /src/.umi-production
 /src/.umi-test
 /.env.local
+
+# idea
+.idea
+.idea/*
+
