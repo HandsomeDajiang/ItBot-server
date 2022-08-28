@@ -13,6 +13,7 @@ const { TextArea } = Input;
 const Form: React.FC = () => {
   const [adaptStyles, setAdaptStyles] = useState<any>(macStyles);
   const [count, setCount] = useState(0);
+  const [token, setToken] = useState<string>('');
   useEffect(() => {
     const root = document.getElementById('root');
     if (root) root.style.height = '100%';
@@ -35,7 +36,6 @@ const Form: React.FC = () => {
   };
 
   const getVerificationData = async () => {
-    const params = {};
     setupWKWebViewJavascriptBridge((bridge: any) => {
       bridge.callHandler('removeMiniProgramToken', {}, (response: any) => {
         console.log(response);
@@ -50,6 +50,21 @@ const Form: React.FC = () => {
       });
     });
   };
+
+  const handleCancel = () => {
+    setupWKWebViewJavascriptBridge((bridge: any) => {
+      bridge.callHandler('closePage', {}, async (response: any) => {
+        console.log(response);
+      });
+    });
+  };
+  const handleConfirm = async () => {
+    try {
+      const urlParams = new URL(document.location).searchParams;
+      const type = urlParams.get('type');
+    } catch (e) {}
+  };
+
   const renderReasonInput = () => {
     return (
       <>
@@ -57,8 +72,12 @@ const Form: React.FC = () => {
         <textarea onChange={onChange} className={adaptStyles.reason} />
         <div className={adaptStyles.count}>{count} / 500</div>
         <div className={adaptStyles.actionBox}>
-          <button className={adaptStyles.cancel}>Cancel</button>
-          <button className={adaptStyles.confirm}>Confirm</button>
+          <button className={adaptStyles.cancel} onClick={handleCancel}>
+            Cancel
+          </button>
+          <button className={adaptStyles.confirm} onClick={handleConfirm}>
+            Confirm
+          </button>
         </div>
       </>
     );

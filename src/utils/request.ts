@@ -5,8 +5,7 @@ import notification from './notification';
  */
 const request = extend({
   // credentials: 'include', // 默认请求是否带上cookie
-  // 06-16
-  headers: {},
+  mode: 'no-cors',
 });
 
 request.interceptors.request.use(

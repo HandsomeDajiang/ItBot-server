@@ -9,9 +9,9 @@ export default defineConfig({
   },
   routes,
   // 路由模式
-  history: {
-    type: 'hash',
-  },
+  // history: {
+  //   type: 'hash',
+  // },
   proxy: proxy[REACT_APP_ENV || 'dev'],
   fastRefresh: {},
   chainWebpack: webpackPlugin,

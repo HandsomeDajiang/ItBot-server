@@ -1,4 +1,4 @@
-export async function setupWKWebViewJavascriptBridge(callback: any) {
+export function setupWKWebViewJavascriptBridge(callback: any) {
   if (isMac()) {
     if (!window.WKWebViewJavascriptBridge) {
       throw new Error('must be inject macOsInject.js');
@@ -29,7 +29,8 @@ export function createJsBridge() {
   if (!window.macOsInjectWKWebViewJavascriptBridge && isMac()) {
     console.log('iframe init jsBridge');
 
-    const TARGET_ORIGIN = 'file://*';
+    // const TARGET_ORIGIN = 'file://*';
+    const TARGET_ORIGIN = '*';
     // 初始化
     window.macOsInjectWKWebViewJavascriptBridge = function (func) {
       window.WKWVJBCallbacks = {};
@@ -46,18 +47,16 @@ export function createJsBridge() {
       const { callbackid, response } = e.data || {};
       const { status } = response || {};
 
-      if (!e.origin || e.origin.length === 0) {
-        if (window.localTimer[callbackid])
-          clearInterval(window.localTimer[callbackid]);
-        console.error('Receive Message Origin Is Undefined!');
-        return;
-      }
-      if (e.origin !== 'file://') {
-        if (window.localTimer[callbackid])
-          clearInterval(window.localTimer[callbackid]);
-        console.error('Receive Unknown Origin Message!');
-        return;
-      }
+      // if (!e.origin || e.origin.length === 0) {
+      //   if (window.localTimer[callbackid])
+      //     clearInterval(window.localTimer[callbackid]);
+      //   console.error('Receive Message Origin Is Undefined!');
+      // }
+      // if (e.origin !== 'file://') {
+      //   if (window.localTimer[callbackid])
+      //     clearInterval(window.localTimer[callbackid]);
+      //   console.error('Receive Unknown Origin Message!');
+      // }
       console.log('iframe receive postmessage data: ' + JSON.stringify(e.data));
 
       if (!status) {
@@ -65,7 +64,6 @@ export function createJsBridge() {
         if (window.localTimer[callbackid])
           clearInterval(window.localTimer[callbackid]);
         console.error('error postmessage data receive!');
-        return;
       }
 
       if (!callbackid || callbackid.length === 0) {
